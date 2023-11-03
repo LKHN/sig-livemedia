@@ -13,11 +13,11 @@ lang en_US.UTF-8
 firewall --enabled --service=mdns
 
 # Repos
-url --url=https://atl.mirrors.knownhost.com/almalinux/9/BaseOS/$basearch/os/
-repo --name="appstream" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/AppStream/$basearch/os/
-repo --name="crb" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/CRB/$basearch/os/
-repo --name="extras" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/extras/$basearch/os/
-repo --name=epel --baseurl="https://dl.fedoraproject.org/pub/epel/9/Everything/$basearch/"
+url --url=https://atl.mirrors.knownhost.com/almalinux-vault/9.3-beta/BaseOS/$basearch/os/
+repo --name="appstream" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/9.3-beta/AppStream/$basearch/os/
+repo --name="extras" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/9.3-beta/extras/$basearch/os/
+repo --name="crb" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/9.3-beta/CRB/$basearch/os/
+repo --name="epel" --baseurl=https://dl.fedoraproject.org/pub/epel/9/Everything/$basearch/
 
 # Network information
 network --activate --bootproto=dhcp --device=link --onboot=on
@@ -1484,11 +1484,11 @@ qemu-kvm-block-rbd
 qemu-kvm-common
 qemu-kvm-core
 qemu-kvm-device-display-virtio-gpu
-qemu-kvm-device-display-virtio-gpu-gl
+# qemu-kvm-device-display-virtio-gpu-gl
 qemu-kvm-device-display-virtio-gpu-pci
-qemu-kvm-device-display-virtio-gpu-pci-gl
+# qemu-kvm-device-display-virtio-gpu-pci-gl
 qemu-kvm-device-display-virtio-vga
-qemu-kvm-device-display-virtio-vga-gl
+# qemu-kvm-device-display-virtio-vga-gl
 qemu-kvm-device-usb-host
 qemu-kvm-device-usb-redirect
 qemu-kvm-docs

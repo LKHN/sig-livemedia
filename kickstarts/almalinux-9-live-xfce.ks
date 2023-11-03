@@ -15,11 +15,11 @@ timezone US/Eastern
 network  --bootproto=dhcp --device=link --activate
 
 # Repos
-url --url=https://atl.mirrors.knownhost.com/almalinux/9/BaseOS/$basearch/os/
-repo --name="appstream" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/AppStream/$basearch/os/
-repo --name="crb" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/CRB/$basearch/os/
-repo --name="extras" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/extras/$basearch/os/
-repo --name="epel" --baseurl=https://dl.fedoraproject.org/pub/epel/9/Everything/$basearch/
+url --url=https://atl.mirrors.knownhost.com/almalinux-vault/9.3-beta/BaseOS/$basearch/os/
+repo --name="appstream" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/9.3-beta/AppStream/$basearch/os/
+repo --name="crb" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/9.3-beta/CRB/$basearch/os/
+repo --name="extras" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/9.3-beta/extras/$basearch/os/
+repo --name="epel" --baseurl="https://dl.fedoraproject.org/pub/epel/9/Everything/$basearch/"
 
 # Firewall configuration
 firewall --enabled --service=mdns

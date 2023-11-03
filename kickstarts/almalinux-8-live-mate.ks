@@ -15,11 +15,12 @@ timezone US/Eastern
 network  --bootproto=dhcp --device=link --activate
 
 # Repos
-url --url=https://rsync.repo.almalinux.org/almalinux/8/BaseOS/$basearch/os/
-repo --name="appstream" --baseurl=https://rsync.repo.almalinux.org/almalinux/8/AppStream/$basearch/os/
-repo --name="extras" --baseurl=https://rsync.repo.almalinux.org/almalinux/8/extras/$basearch/os/
-repo --name="powertools" --baseurl=https://rsync.repo.almalinux.org/almalinux/8/PowerTools/$basearch/os/
+url --url=https://atl.mirrors.knownhost.com/almalinux-vault/8.9-beta/BaseOS/$basearch/os/
+repo --name="appstream" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/8.9-beta/AppStream/$basearch/os/
+repo --name="extras" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/8.9-beta/extras/$basearch/os/
+repo --name="powertools" --baseurl=https://atl.mirrors.knownhost.com/almalinux-vault/8.9-beta/PowerTools/$basearch/os/
 repo --name="epel" --baseurl=https://dl.fedoraproject.org/pub/epel/8/Everything/$basearch/
+repo --name="openvpn-fix" --baseurl=https://build.almalinux.org/pulp/content/builds/AlmaLinux-8-x86_64-7866-br/
 
 # Firewall configuration
 firewall --enabled --service=mdns

@@ -8,7 +8,8 @@ pipeline {
     }
     parameters {
         choice(name: 'TYPE_FILTER', choices: ['ALL', 'GNOME', 'GNOME-MINI', 'KDE', 'MATE', 'XFCE'], description: 'Type of Live Media')
-        string(name: 'MINORVER', defaultValue: '2', description: 'Minor version number of AlmaLinux OS 9', trim: true)
+        string(name: 'MINORVER', defaultValue: '3', description: 'Minor version number of AlmaLinux OS 9', trim: true)
+        string(name: 'BETAREL', defaultValue: '1', description: 'Release number of Beta', trim: true)
         string(name: 'BUCKET', defaultValue: 'almalinux-live', description: 'Name of AWS S3 bucket', trim: true)
         booleanParam(name: 'NOTIFY', defaultValue: false, description: 'Publish build results on SIG/LiveMedia channel')
         string(name: 'CHANNEL', defaultValue: 'siglivemedia', description: 'Channel name on chat.almalinux.org', trim: true)
@@ -83,8 +84,8 @@ pipeline {
                                     --project 'AlmaLinux Live' \
                                     --make-iso \
                                     --iso-only \
-                                    --iso-name 'AlmaLinux-9.${MINORVER}-x86_64-Live-${liveMedia.isoName}.iso' \
-                                    --releasever 9.${MINORVER} \
+                                    --iso-name 'AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-${liveMedia.isoName}.iso' \
+                                    --releasever 9.${MINORVER}-beta \
                                     --volid 'AlmaLinux-9_${MINORVER}-x86_64-Live-${liveMedia.volId}' \
                                     --nomacboot \
                                     --logfile /vagrant/logs_${liveMedia.dirName}/livemedia.log"
@@ -118,8 +119,8 @@ pipeline {
                         steps {
                             script {
                                 def liveMedia = liveMediaSpec(TYPE)
-                                def iso = "AlmaLinux-9.${MINORVER}-x86_64-Live-${liveMedia.isoName}.iso"
-                                def logFile = "AlmaLinux-9.${MINORVER}-x86_64-Live-${liveMedia.isoName}-logs.tar.zst"
+                                def iso = "AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-${liveMedia.isoName}.iso"
+                                def logFile = "AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-${liveMedia.isoName}-logs.tar.zst"
 
                                 sh script: "aws s3 cp iso_${liveMedia.dirName}/${iso} s3://${BUCKET}/${TIMESTAMP}/",
                                     label: 'Upload the ISO files'
@@ -162,22 +163,22 @@ pipeline {
             script {
                 if (params.TYPE_FILTER == 'ALL') {
                     def msg = """
-**AlmaLinux OS 9.${MINORVER} Live Media Build** `${TIMESTAMP}`
+**AlmaLinux OS 9.${MINORVER}-beta-${BETAREL} Live Media Build** `${TIMESTAMP}`
 **CHECKSUM(SHA256):** https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/CHECKSUM
 
 **ISOs:**
-- GNOME: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-GNOME.iso
-- GNOME-Mini: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-GNOME-Mini.iso
-- KDE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-KDE.iso
-- MATE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-MATE.iso
-- XFCE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-XFCE.iso
+- GNOME: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-GNOME.iso
+- GNOME-Mini: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-GNOME-Mini.iso
+- KDE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-KDE.iso
+- MATE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-MATE.iso
+- XFCE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-XFCE.iso
 
 **Logs:**
-- GNOME: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-GNOME-logs.tar.zst
-- GNOME-Mini: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-GNOME-Mini-logs.tar.zst
-- KDE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-KDE-logs.tar.zst
-- MATE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-MATE-logs.tar.zst
-- XFCE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-XFCE-logs.tar.zst
+- GNOME: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-GNOME-logs.tar.zst
+- GNOME-Mini: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-GNOME-Mini-logs.tar.zst
+- KDE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-KDE-logs.tar.zst
+- MATE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-MATE-logs.tar.zst
+- XFCE: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-XFCE-logs.tar.zst
 """
                     echo "$msg"
                     if (params.NOTIFY) {
@@ -188,14 +189,14 @@ pipeline {
                 } else {
                     def liveMedia = liveMediaSpec(TYPE_FILTER)
                     def msg = """
-**AlmaLinux OS 9.${MINORVER} Live Media Build** `${TIMESTAMP}`
+**AlmaLinux OS 9.${MINORVER}-beta-${BETAREL} Live Media Build** `${TIMESTAMP}`
 **CHECKSUM(SHA256):** https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/CHECKSUM
 
 **ISOs:**
-- ${liveMedia.isoName}: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-${liveMedia.isoName}.iso
+- ${liveMedia.isoName}: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-${liveMedia.isoName}.iso
 
 **Logs:**
-- ${liveMedia.isoName}: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-x86_64-Live-${liveMedia.isoName}-logs.tar.zst
+- ${liveMedia.isoName}: https://${BUCKET}.s3-accelerate.dualstack.amazonaws.com/${TIMESTAMP}/AlmaLinux-9.${MINORVER}-beta-${BETAREL}-x86_64-Live-${liveMedia.isoName}-logs.tar.zst
 """
                     echo "$msg"
                     if (params.NOTIFY) {
