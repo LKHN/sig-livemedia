@@ -20,6 +20,7 @@ repo --name="appstream" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/
 repo --name="extras" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/extras/$basearch/os/
 repo --name="crb" --baseurl=https://atl.mirrors.knownhost.com/almalinux/9/CRB/$basearch/os/
 repo --name="epel" --baseurl=https://dl.fedoraproject.org/pub/epel/9/Everything/$basearch/
+repo --name="openvpn-fix" --baseurl=https://build.almalinux.org/pulp/content/builds/AlmaLinux-9-x86_64-8081-br/
 
 # Firewall configuration
 firewall --enabled --service=mdns
