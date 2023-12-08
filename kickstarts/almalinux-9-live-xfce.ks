@@ -36,8 +36,6 @@ clearpart --all --initlabel
 part / --size=10238
 
 %post
-# Enable sddm since it is disabled by the packager by default
-systemctl enable --force sddm.service
 
 # FIXME: it'd be better to get this installed from a package
 cat > /etc/rc.d/init.d/livesys << EOF
@@ -318,7 +316,7 @@ touch /etc/machine-id
 
 cat > /etc/sysconfig/desktop <<EOF
 PREFERRED=/usr/bin/startxfce4
-DISPLAYMANAGER=/usr/bin/sddm
+DISPLAYMANAGER=/usr/sbin/lightdm
 EOF
 
 cat >> /etc/rc.d/init.d/livesys << EOF
@@ -348,17 +346,13 @@ rm -f /etc/xdg/autostart/xfconf-migration-4.6.desktop || :
 mkdir -p /home/liveuser/.config/xfce4/xfconf/xfce-perchannel-xml
 cp /etc/xdg/xfce4/panel/default.xml /home/liveuser/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 
-# set up autologin for user liveuser
-if [ -f /etc/sddm.conf ]; then
-sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
-sed -i 's/^#Session=.*/Session=xfce.desktop/' /etc/sddm.conf
-else
-cat > /etc/sddm.conf << SDDM_EOF
-[Autologin]
-User=liveuser
-Session=xfce.desktop
-SDDM_EOF
-fi
+# Enable automatic login in LightDM
+cat > /etc/lightdm/lightdm.conf.d/50-live.conf << 'EOF'
+[Seat:*]
+user-session=xfce
+autologin-user=liveuser
+autologin-user-timeout=0
+EOF
 
 mkdir -p /home/liveuser/Desktop
 # make the installer show up, when exits
@@ -1229,8 +1223,6 @@ rsyslog-logrotate
 rtkit
 sac
 satyr
-sddm
-sddm-x11
 sed
 selinux-policy
 selinux-policy-targeted
@@ -1364,5 +1356,42 @@ yum
 zenity
 zlib
 zstd
-
+# Sound
+alsa-ucm
+alsa-utils
+pipewire-utils
+# Document viewer (PDF)
+atril
+# Colored bash prompt (PS1) with autoc-completion support
+bash-color-prompt
+bash-completion
+# Bluetooth support
+bluez
+# GTK+ based configuration tool for firewalld. See: https://firewalld.org/documentation/utilities/firewall-config.html
+firewall-config
+# Management of disks, paritions and filesystems on GUI. See: https://gparted.org/screenshots.php
+gparted
+# Include it so an user can parse JSON format without internet access. See: https://jqlang.github.io/jq/
+jq
+# Replace SSDM with LightDM. I cannot imagine a XFCE desktop without LightDM as Desktop Manager
+lightdm
+# NTFS filesystem support for using filesystem of Windows. It can be helpful for the rescue purposes
+ntfs-3g
+ntfs-3g-system-compression
+ntfsprogs
+# Video player for XFCE
+parole
+# Image viewer
+ristretto
+# We need a about page to check AlmaLinux and XFCE version and system information
+xfce4-about
+# Deamon for notification support
+xfce4-notifyd
+# Task manager for resource usage
+xfce4-taskmanager
+# Support for compression algrithms
+bzip2
+p7zip
+p7zip-plugins
+unzip
 %end
